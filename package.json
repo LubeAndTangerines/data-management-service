@@ -1,0 +1,47 @@
+{
+  "name": "data-management-service",
+  "version": "1.0.0",
+  "description": "Microservice to handle data for shopping list app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "watch": "npm run watch:dev",
+    "test": "npm run test:e2e && npm run test:unit",
+    "lint": "eslint src/",
+    "validate-swagger": "NODE_ENV=test node src/app & ./node_modules/swagger-validator/bin/swaggerValidator -s http://localhost:4000/swagger.json && kill $!"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:LubeAndTangerines/data-management-service.git"
+  },
+  "author": "Markus Tarn",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "config": "^1.26.2",
+    "express": "^4.15.4",
+    "html-entities": "^1.2.1",
+    "lodash": "^4.17.4",
+    "lodash-uuid": "0.0.3",
+    "pg-promise": "^7.3.2",
+    "request": "^2.83.0",
+    "swagger-model-validator": "^2.2.1",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.3",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-filenames": "^1.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^3.5.3",
+    "nock": "^9.0.22",
+    "swagger-validator": "^1.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/LubeAndTangerines/data-management-service/issues"
+  },
+  "homepage": "https://github.com/LubeAndTangerines/data-management-service#readme"
+}

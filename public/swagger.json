@@ -1,0 +1,20 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "data-management-service",
+    "description": "Microservice to handle data for shopping list app"
+  },
+  "host": "localhost",
+  "schemes": [ "https" ],
+  "consumes": [ "application/json" ],
+  "produces": [ "application/json" ],
+
+  "paths": {
+    "/api/v1/healthcheck": {
+      "get": {
+        "summary": "Check if service is up and running"
+      }
+    }
+  }
+}
+
