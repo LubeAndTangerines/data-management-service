@@ -16,12 +16,12 @@ create table if not exists public.landt_piles (
 );
 
 create table if not exists public.landt_wishes (
-    id serial primary key,
-    pile_id SERIAL,
+    id int primary key,
+    pile_id SERIAL REFERENCES public.landt_piles (id),
     rid char(36) not null,
     wish varchar(255) not null,
     amount int not null DEFAULT 1,
-    status varchar(30) not null default 'REQUESTED',
+    status varchar(30) not null default 'WISHED',
     created_ts	 timestamp with time zone default now(),
     modified_ts timestamp with time zone default now()
 );
