@@ -1,37 +1,58 @@
-## Welcome to GitHub Pages
+# Data-Management-Service.js
+```                                                                                                                          
 
-You can use the [editor on GitHub](https://github.com/LubeAndTangerines/data-management-service/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+    ____        __              __  ___                                                  __       _____                 _         
+   / __ \____ _/ /_____ _      /  |/  /___ _____  ____ _____ ____  ____ ___  ___  ____  / /_     / ___/___  ______   __(_)_______ 
+  / / / / __ `/ __/ __ `/_____/ /|_/ / __ `/ __ \/ __ `/ __ `/ _ \/ __ `__ \/ _ \/ __ \/ __/_____\__ \/ _ \/ ___/ | / / / ___/ _ \
+ / /_/ / /_/ / /_/ /_/ /_____/ /  / / /_/ / / / / /_/ / /_/ /  __/ / / / / /  __/ / / / /_/_____/__/ /  __/ /   | |/ / / /__/  __/
+/_____/\__,_/\__/\__,_/     /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/ /_/ /_/\___/_/ /_/\__/     /____/\___/_/    |___/_/\___/\___/ 
+                                                     /____/                                                                       
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Microservice to handle data for shopping list app
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/LubeAndTangerines/data-management-service/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Todo
+------------------
 
-### Support or Contact
+* [ ] All routes
+* [ ] All controllers
+* [ ] All models
+* [ ] All queries
+* [ ] Tests
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Quick Start
+------------------
+```
+$ git clone https://github.com/LubeAndTangerines/data-management-service.git
+$ cd data-management-service
+$ npm i
+```
+
+Starting service
+------------------
+* Run `npm start` to start the service.
+* Run `npm watch` to start the service (PM2).
+
+
+API
+------------------
+
+#### Healthcheck (GET)
+**Url:** _/api/v1/healthcheck_
+
+**Example Response**
+```json
+{
+    "status": 200,
+    "service": "data-management-service",
+    "statusMessage": "OK. Service is running!",
+    "reqID": "81b3f9de-56b7-440c-96dc-dd7d22901762",
+    "postgres": {
+        "resolved": true
+    }
+}
+```
