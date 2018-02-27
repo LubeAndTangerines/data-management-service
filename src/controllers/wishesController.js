@@ -5,25 +5,20 @@ const logger = require('../helpers/logger');
 const wishesModel = require('../models/wishesModel');
 const helpers = require('../helpers/functions');
 
-const STATUSES = {
-    wished: 'WISHED',
-    granted: 'GRANTED',
-    forgotten: 'FORGOTTEN',
-};
-
 function getWishes(req, res, next) {
-    let statuses = STATUSES;
+    const noWishesFound = new errorHandler.Request(null, 'no_wishes', 404);
+    const pileId = req.params.pile_id;
+    let statuses = constants.STATUSES;
+
     if (req.query.status) {
         statuses = helpers.getQueryParamAsUpperArray(req.query.status);
     }
-    const queryParams = {
-        statuses,
-        pile_id: parseInt(req.query.pile, 10),
-    };
 
-    return wishesModel.getWishesByStatusAndPileId(queryParams, req.rid)
+    return wishesModel.getWishesByStatusAndPileId(pileId, statuses, req.rid)
         .then((results) => {
-            req.response(200, 'success', {
+            if (results.length === 0) return next(noWishesFound);
+
+            return req.response(200, 'wishes', {
                 resultCount: results.length,
                 result: results,
             });
@@ -33,46 +28,48 @@ function getWishes(req, res, next) {
 
 function postNewWishes(req, res, next) {
     const payload = req.body;
-    const validation = validator.validate('WishesModel', payload);
+    const validation = validator.validate('AddWishesModel', payload);
     const pileId = req.params.pile_id;
 
-    if (validation.valid === false) {
-        logger.log('warn', 'PayloadValidation failed on post new Wish', {
-            rid: req.rid,
-            validationMsg: validation.GetErrorMessages(),
-        });
+    // if (validation.valid === false) {
+    //     logger.log('warn', 'PayloadValidation failed on post new Wish', {
+    //         rid: req.rid,
+    //         validationMsg: validation.GetErrorMessages(),
+    //     });
+    //
+    //     return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
+    // }
 
-        return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
-    }
-
-    return wishesModel.addWish(pileId, payload.wishes, req.rid)
-        .then(data => req.response(200, 'Wishes added', data))
+    return wishesModel.addWishToPile(pileId, payload, req.rid)
+        .then(data => req.response(201, 'Wishes added', data))
         .catch(err => next(new errorHandler.System(err.message, 'Failed to add new wishes')));
 }
 
 function patchWish(req, res, next) {
     const payload = req.body;
-    const validation = validator.validate('WishUpdateModel', payload);
-
-    if (validation.valid === false) {
-        logger.log('warn', 'PayloadValidation failed on update', {
-            rid: req.rid,
-            valdiationMsg: validation.GetErrorMessages(),
-        });
-
-        return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
-    }
-
+    const validation = validator.validate('UpdateWishesModel', payload);
     const pileId = req.params.pile_id;
-    const newStatus = constants.STATUSES[payload.status];
 
-    return wishesModel.changeWish(pileId, newStatus, req.rid)
+    // if (validation.valid === false) {
+    //     logger.log('warn', 'PayloadValidation failed on wish update', {
+    //         rid: req.rid,
+    //         validationMsg: validation.GetErrorMessages(),
+    //     });
+    //
+    //     return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
+    // }
+
+    logger.log('debug', 'incoming get', {
+        params: req.params,
+        payload,
+    });
+    return wishesModel.changeWish(payload, req.rid)
         .then(result => req.response(200, 'updated', result))
         .catch((err) => {
             logger.log('error', 'Update failed on some wishes', {
                 rid: req.rid,
-                pile_id:,
-                newStatus,
+                pileId: pileId,
+                payload: payload,
                 msg: err.message,
             });
 

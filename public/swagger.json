@@ -5,7 +5,7 @@
     "description": "Microservice to handle data for shopping list app"
   },
   "host": "localhost",
-  "schemes": [ "https" ],
+  "schemes": [ "http", "https"],
   "consumes": [ "application/json" ],
   "produces": [ "application/json" ],
 
@@ -14,6 +14,81 @@
       "get": {
         "summary": "Check if service is up and running"
       }
+    },
+    "api/v1/piles/:pile_id/wishes": {
+      "get": {
+        "summary": "Returns validation documents requests"
+      },
+      "post": {
+        "summary": "Adds a wish to pile"
+      },
+      "patch": {
+        "summary": "Update status, description or amount of given wishes"
+      }
+    }
+  },
+
+  "definitions": {
+    "AddWishesModel": {
+      "type": "object",
+      "required": [
+        "wishes"
+      ],
+      "properties": {
+        "wishes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "wish": {
+                "$ref": "WishModel"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "UpdateWishesModel": {
+      "type": "object",
+      "required": [
+        "wishes"
+      ],
+      "properties": {
+        "wishes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "wish": {
+                "$ref": "WishModel"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "WishModel": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "amount": {
+          "type": "number"
+        },
+        "statuses": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "id": { "type": "number" }
+      },
+      "additionalProperties": false
     }
   }
 }

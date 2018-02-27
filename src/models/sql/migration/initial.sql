@@ -20,7 +20,7 @@ create table if not exists public.landt_wishes (
     pile_id SERIAL REFERENCES public.landt_piles (id) NOT NULL,
     rid char(36) not null,
     wish varchar(255) not null,
-    amount int not null DEFAULT 1,
+    amount int not null,
     status varchar(30) not null default 'WISHED',
     created_ts	 timestamp with time zone default now(),
     modified_ts timestamp with time zone default now()
