@@ -1,0 +1,184 @@
+{
+	"info": {
+		"name": "Lube&TangerinesV1",
+		"_postman_id": "65748f36-afcf-4dcf-943b-76d5d0674f43",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "729cd6e7-9e58-494d-b8e0-35548485c76b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/healthcheck",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"healthcheck"
+					]
+				},
+				"description": "Health check"
+			},
+			"response": []
+		},
+		{
+			"name": "Pile of wishes (wished)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3e22bc61-7cee-43f6-8910-e91f715544d8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes?status=wished",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}",
+						"wishes"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "wished",
+							"equals": true
+						}
+					]
+				},
+				"description": "Get specified pile of wishes with status \"wished\""
+			},
+			"response": []
+		},
+		{
+			"name": "New wishes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"wishes\": [\n\t\t{ \"description\": \"Doggo\" },\n\t\t{ \"description\": \"Pen\", \"amount\": \"2\" },\n\t\t{ \"description\": \"Penny\", \"amount\": \"3\" }\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}",
+						"wishes"
+					]
+				},
+				"description": "Add wish to specified pile"
+			},
+			"response": []
+		},
+		{
+			"name": "Update wishes",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"updateField\": \"description\",\n\t\"wishes\": [\n\t\t{ \"id\": 1, \"description\": \"Froggo\" },\n\t\t{ \"id\": 2, \"description\": \"Peet\" }\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}",
+						"wishes"
+					]
+				},
+				"description": "Update either status, amount or description on array of wishes"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9014c377-4ddd-4582-97ce-3ed59910e873",
+				"type": "text/javascript",
+				"exec": [
+					"const host = \"http://159.89.107.237\";",
+					"const port = \"1337\";",
+					"const pileId = 1;",
+					"const wishId = 1;",
+					"",
+					"postman.setGlobalVariable(\"host\", host);",
+					"postman.setGlobalVariable(\"port\", port);",
+					"",
+					"postman.setGlobalVariable(\"pileId\", pileId);",
+					"postman.setGlobalVariable(\"wishId\", wishId);",
+					"// Random id for each req",
+					"// postman.setGlobalVariable('wishId', Math.floor(Math.random() * 1000));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "72d659f6-e3df-4d61-86e1-57c7cde12279",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

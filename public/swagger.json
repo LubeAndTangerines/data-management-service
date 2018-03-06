@@ -29,7 +29,7 @@
   },
 
   "definitions": {
-    "AddWishesModel": {
+    "WishesModel": {
       "type": "object",
       "required": [
         "wishes"
@@ -45,27 +45,6 @@
               }
             },
             "additionalProperties": true
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-
-    "UpdateWishesModel": {
-      "type": "object",
-      "required": [
-        "wishes"
-      ],
-      "properties": {
-        "wishes": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "wish": {
-                "$ref": "WishModel"
-              }
-            }
           }
         },
         "additionalProperties": false
