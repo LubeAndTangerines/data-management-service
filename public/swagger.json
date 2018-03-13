@@ -64,18 +64,18 @@
     }
   },
   "definitions" : {
-    "PostWishesModel" : {
+    "AddWishesModel" : {
       "type" : "object",
       "required": [
         "wishes"
       ],
       "properties" : {
         "wishes" : {
-          "$ref": "#/definitions/WishModel"
+          "$ref": "#/definitions/WishesModel"
         }
       }
     },
-    "PatchWishesModel" : {
+    "UpdateWishesModel" : {
       "type" : "object",
       "required": [
         "updateField",
@@ -86,7 +86,7 @@
           "type": "string"
         },
         "wishes" : {
-          "$ref": "#/definitions/WishModel"
+          "$ref": "#/definitions/WishesModel"
         }
       }
     },
