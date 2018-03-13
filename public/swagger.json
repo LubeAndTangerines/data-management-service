@@ -1,74 +1,89 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "title": "data-management-service",
-    "description": "Microservice to handle data for shopping list app"
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Microservice to handle data for shopping list app",
+    "version" : "1.0.0",
+    "title" : "data-management-service"
   },
-  "host": "localhost",
-  "schemes": [ "http", "https"],
-  "consumes": [ "application/json" ],
-  "produces": [ "application/json" ],
-
-  "paths": {
-    "/api/v1/healthcheck": {
-      "get": {
-        "summary": "Check if service is up and running"
+  "host" : "localhost",
+  "schemes" : [ "http", "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/api/v1/healthcheck" : {
+      "get" : {
+        "summary" : "Check if service is up and running",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns service status (up and running)"
+          },
+          "500" : {
+            "description" : "Returns service status (service down)"
+          }
+        }
       }
     },
-    "api/v1/piles/:pile_id/wishes": {
-      "get": {
-        "summary": "Returns validation documents requests"
+    "/api/v1/piles/:pile_id/wishes" : {
+      "get" : {
+        "summary" : "Returns validation documents requests",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns list of wishes in pile"
+          },
+          "500" : {
+            "description" : "Service outages"
+          }
+        }
       },
-      "post": {
-        "summary": "Adds a wish to pile"
+      "post" : {
+        "summary" : "Adds new wishes to the pile",
+        "parameters" : [ ],
+        "responses" : {
+          "201" : {
+            "description" : "New wishes were added to the pile"
+          },
+          "500" : {
+            "description" : "Service outages"
+          }
+        }
       },
-      "patch": {
-        "summary": "Update status, description or amount of given wishes"
+      "patch" : {
+        "summary" : "Update status, description or amount of given wishes",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Wishes were successfully updated"
+          },
+          "500" : {
+            "description" : "Service outages"
+          }
+        }
       }
     }
   },
-
-  "definitions": {
-    "WishesModel": {
-      "type": "object",
-      "required": [
-        "wishes"
-      ],
-      "properties": {
-        "wishes": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "wish": {
-                "$ref": "WishModel"
-              }
-            },
-            "additionalProperties": true
-          }
-        },
-        "additionalProperties": false
+  "definitions" : {
+    "WishesModel" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/WishModel"
       }
     },
-
-    "WishModel": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string",
-          "maxLength": 50
+    "WishModel" : {
+      "type" : "object",
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "maxLength" : 50
         },
-        "amount": {
-          "type": "number"
+        "amount" : {
+          "type" : "number"
         },
-        "statuses": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "id": { "type": "number" }
-      },
-      "additionalProperties": false
+        "id" : {
+          "type" : "number"
+        }
+      }
     }
   }
 }
-
