@@ -70,6 +70,21 @@
         "$ref" : "#/definitions/WishModel"
       }
     },
+    "UpdateWishesModel" : {
+      "type" : "object",
+      "required": [
+        "updateField",
+        "wishes"
+      ],
+      "properties" : {
+        "updateField": {
+          "type": "string"
+        },
+        "wishes" : {
+          "$ref": "#/definitions/WishModel"
+        }
+      }
+    },
     "WishModel" : {
       "type" : "object",
       "properties" : {
