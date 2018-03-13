@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node ./src/app.js",
     "watch": "npm run watch:dev",
+    "watch:dev": "pm2 start ./src/app.js --name $npm_package_name --watch --ignore-watch='logs .git node_modules uploads'",
+    "debug": "node --nolazy --inspect=2029 ./src/app.js",
     "test": "npm run test:e2e && npm run test:unit",
+    "test:unit": "mocha --timeout 10000 --recursive tests/unit",
+    "test:e2e": "mocha --timeout 10000 --recursive tests/e2e",
     "lint": "eslint src/",
     "validate-swagger": "NODE_ENV=test node src/app & ./node_modules/swagger-validator/bin/swaggerValidator -s http://localhost:4000/swagger.json && kill $!"
   },
