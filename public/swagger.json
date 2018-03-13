@@ -64,13 +64,18 @@
     }
   },
   "definitions" : {
-    "WishesModel" : {
-      "type" : "array",
-      "items" : {
-        "$ref" : "#/definitions/WishModel"
+    "PostWishesModel" : {
+      "type" : "object",
+      "required": [
+        "wishes"
+      ],
+      "properties" : {
+        "wishes" : {
+          "$ref": "#/definitions/WishModel"
+        }
       }
     },
-    "UpdateWishesModel" : {
+    "PatchWishesModel" : {
       "type" : "object",
       "required": [
         "updateField",
@@ -83,6 +88,12 @@
         "wishes" : {
           "$ref": "#/definitions/WishModel"
         }
+      }
+    },
+    "WishesModel" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/WishModel"
       }
     },
     "WishModel" : {
