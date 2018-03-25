@@ -1,38 +1,29 @@
 const errorHandler = require('../helpers/errorHandlers');
 const validator = require('../helpers/swaggerValidator');
-const constants = require('../constants');
 const logger = require('../helpers/logger');
-const wishesModel = require('../models/wishesModel');
-const helpers = require('../helpers/functions');
+const pilesModel = require('../models/pilesModel');
 
 function getPile(req, res, next) {
-    const noWishesFound = new errorHandler.Request(null, 'no_wishes', 404);
+    const noPileFound = new errorHandler.Request(null, 'no_pile', 404);
     const pileId = req.params.pile_id;
-    let statuses = constants.STATUSES;
 
-    if (req.query.status) {
-        statuses = helpers.getQueryParamAsUpperArray(req.query.status);
-    }
+    return pilesModel.getPileByPileId(pileId, req.rid)
+        .then((result) => {
+            if (!result) return next(noPileFound);
 
-    return wishesModel.getWishesByStatusAndPileId(pileId, statuses, req.rid)
-        .then((results) => {
-            if (results.length === 0) return next(noWishesFound);
-
-            return req.response(200, 'wishes', {
-                resultCount: results.length,
-                result: results,
+            return req.response(200, 'pile', {
+                result: result,
             });
         })
-        .catch(err => next(new errorHandler.Request(err.message, 'failed_to_get_wishes')));
+        .catch(err => next(new errorHandler.Request(err.message, 'failed_to_get_pile')));
 }
 
 function postNewPile(req, res, next) {
     const payload = req.body;
-    const validation = validator.validate('AddWishesModel', payload);
-    const pileId = req.params.pile_id;
+    const validation = validator.validate('AddPileModel', payload);
 
     if (validation.valid === false) {
-        logger.log('warn', 'PayloadValidation failed on post new Wish', {
+        logger.log('warn', 'PayloadValidation failed on post new Pile', {
             rid: req.rid,
             validationMsg: validation.GetErrorMessages(),
         });
@@ -40,18 +31,18 @@ function postNewPile(req, res, next) {
         return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
     }
 
-    return wishesModel.addWishToPile(pileId, payload, req.rid)
-        .then(data => req.response(201, 'Wishes added', data))
-        .catch(err => next(new errorHandler.System(err.message, 'Failed to add new wishes')));
+    return pilesModel.addPile(payload, req.rid)
+        .then(data => req.response(201, 'Pile added', data))
+        .catch(err => next(new errorHandler.System(err.message, 'Failed to add new Pile')));
 }
 
 function putPile(req, res, next) {
     const payload = req.body;
-    const validation = validator.validate('UpdateWishesModel', payload);
+    const validation = validator.validate('UpdatePileModel', payload);
     const pileId = req.params.pile_id;
 
     if (validation.valid === false) {
-        logger.log('warn', 'PayloadValidation failed on wish update', {
+        logger.log('warn', 'PayloadValidation failed on pile update', {
             rid: req.rid,
             validationMsg: validation.GetErrorMessages(),
         });
@@ -59,14 +50,10 @@ function putPile(req, res, next) {
         return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
     }
 
-    logger.log('debug', 'incoming get', {
-        params: req.params,
-        payload,
-    });
-    return wishesModel.changeWish(payload, req.rid)
+    return pilesModel.changePile(payload, req.rid)
         .then(result => req.response(200, 'updated', result))
         .catch((err) => {
-            logger.log('error', 'Update failed on some wishes', {
+            logger.log('error', 'Update failed on Pile', {
                 rid: req.rid,
                 pileId: pileId,
                 payload: payload,
