@@ -1,8 +1,7 @@
 {
 	"info": {
-		"name": "Lube&TangerinesV1",
 		"_postman_id": "65748f36-afcf-4dcf-943b-76d5d0674f43",
-		"description": "",
+		"name": "Lube&TangerinesV1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -41,7 +40,7 @@
 			"response": []
 		},
 		{
-			"name": "Pile of wishes (wished)",
+			"name": "Pile of wishes (wished/checked/archived)",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -74,17 +73,16 @@
 					"query": [
 						{
 							"key": "status",
-							"value": "wished",
-							"equals": true
+							"value": "wished"
 						}
 					]
 				},
-				"description": "Get specified pile of wishes with status \"wished\""
+				"description": "Get specified pile of wishes.\nFilter status with query param ?status=(wished/checked/archived)."
 			},
 			"response": []
 		},
 		{
-			"name": "New wishes",
+			"name": "Add new wishes",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -95,7 +93,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"wishes\": [\n\t\t{ \"description\": \"Doggo\" },\n\t\t{ \"description\": \"Pen\", \"amount\": \"2\" },\n\t\t{ \"description\": \"Penny\", \"amount\": \"3\" }\n\t]\n}"
+					"raw": "{\n\t\"wishes\": [\n\t\t{ \"description\": \"Bacon\" },\n\t\t{ \"description\": \"Eggs\", \"amount\": \"2\" },\n\t\t{ \"description\": \"Beer\", \"amount\": \"4\" }\n\t]\n\t\n}"
 				},
 				"url": {
 					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes",
@@ -111,12 +109,12 @@
 						"wishes"
 					]
 				},
-				"description": "Add wish to specified pile"
+				"description": "Add array of new wishes to specified pile"
 			},
 			"response": []
 		},
 		{
-			"name": "Update wishes",
+			"name": "Update wishes (status)",
 			"request": {
 				"method": "PATCH",
 				"header": [
@@ -127,7 +125,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"updateField\": \"description\",\n\t\"wishes\": [\n\t\t{ \"id\": 1, \"description\": \"Froggo\" },\n\t\t{ \"id\": 2, \"description\": \"Peet\" }\n\t]\n}"
+					"raw": "{\n  \"updateField\": \"status\",\n  \"wishes\": [\n    { \"id\": 1, \"status\": \"checked\" },\n    { \"id\": 2, \"status\": \"archived\" }\n  ]\n}"
 				},
 				"url": {
 					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes",
@@ -143,7 +141,156 @@
 						"wishes"
 					]
 				},
-				"description": "Update either status, amount or description on array of wishes"
+				"description": "Update status on array of wishes"
+			},
+			"response": []
+		},
+		{
+			"name": "Update wishes (amount)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"updateField\": \"description\",\n  \"wishes\": [\n    { \"id\": 1, \"description\": \"Froggo\" },\n    { \"id\": 2, \"description\": \"Peet\" }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}",
+						"wishes"
+					]
+				},
+				"description": "Update amount on array of wishes"
+			},
+			"response": []
+		},
+		{
+			"name": "Update wishes (description)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"updateField\": \"description\",\n  \"wishes\": [\n    { \"id\": 1, \"description\": \"Froggo\" },\n    { \"id\": 2, \"description\": \"Peet\" }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}/wishes",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}",
+						"wishes"
+					]
+				},
+				"description": "Update description on array of wishes"
+			},
+			"response": []
+		},
+		{
+			"name": "Pile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}"
+					]
+				},
+				"description": "Get pile by id"
+			},
+			"response": []
+		},
+		{
+			"name": "Add new pile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"My shopping list\",\n  \"description\": \"For home\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						""
+					]
+				},
+				"description": "Add a new pile and receive it's data"
+			},
+			"response": []
+		},
+		{
+			"name": "Update pile (name & description)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Shopping list\",\n\t\"description\": \"For home\"\n}\n            "
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/v1/piles/{{pileId}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"piles",
+						"{{pileId}}"
+					]
+				},
+				"description": "Update name and discription of pile"
 			},
 			"response": []
 		}
@@ -155,7 +302,8 @@
 				"id": "9014c377-4ddd-4582-97ce-3ed59910e873",
 				"type": "text/javascript",
 				"exec": [
-					"const host = \"http://159.89.107.237\";",
+					"// const host = \"http://159.89.107.237\";",
+					"const host = \"localhost\";",
 					"const port = \"1337\";",
 					"const pileId = 1;",
 					"const wishId = 1;",

@@ -8,6 +8,12 @@ const queries = {
     updateWish: new QueryFile(path.join(__dirname, './wishes/updateWishDescription.sql')),
     updateWishStatus: new QueryFile(path.join(__dirname, './wishes/updateWishStatus.sql')),
     updateWishAmount: new QueryFile(path.join(__dirname, './wishes/updateWishAmount.sql')),
+
+    // Piles
+    getPile: new QueryFile(path.join(__dirname, './piles/getPile.sql')),
+    addNewPile: new QueryFile(path.join(__dirname, './piles/addNewPile.sql')),
+    getLastAddedPile: new QueryFile(path.join(__dirname, './piles/getLastAddedPile.sql')),
+    updatePile: new QueryFile(path.join(__dirname, './piles/updatePile.sql')),
 };
 
 module.exports = queries;

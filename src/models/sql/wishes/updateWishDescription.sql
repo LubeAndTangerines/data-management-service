@@ -1,4 +1,6 @@
-UPDATE public.landt_wishes SET
+UPDATE
+	public.landt_wishes
+SET
 	wish = ${newWish}
 WHERE
 	id = ${wishId};

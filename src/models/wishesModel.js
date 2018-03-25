@@ -31,7 +31,7 @@ function addWishToPile(pileId, params, rid) {
         })
             .then(wishes => resolve(wishes))
             .catch((err) => {
-                logger.log('alert', 'Error While inserting new wish', { err: err.message, rid });
+                logger.log('alert', 'Error while inserting new wish', { err: err.message, rid });
                 reject(err);
             });
     });
@@ -43,22 +43,22 @@ function changeWish(params, rid) {
             const wishes = params.wishes;
             switch (params.updateField) {
                 case "status":
-                    wishes.forEach(wish => t.any(sql.updateWishStatus, {
+                    wishes.forEach(wish => t.none(sql.updateWishStatus, {
                         newStatus: constants.STATUSES[wish.status],
                         wishId: wish.id,
-                    }));
+                    }).then(wishes => resolve(wishes)).catch((err) => reject(err)));
                     break;
                 case "amount":
-                    wishes.forEach(wish => t.any(sql.updateWishAmount, {
+                    wishes.forEach(wish => t.none(sql.updateWishAmount, {
                         newAmount: wish.amount,
                         wishId: wish.id,
-                    }));
+                    }).then(resolve).catch((err) => reject(err)));
                     break;
                 case "description":
-                    wishes.forEach(wish => t.any(sql.updateWish, {
+                    wishes.forEach(wish => t.none(sql.updateWish, {
                         newWish: wish.description,
                         wishId: wish.id,
-                    }));
+                    }).then(resolve).catch((err) => reject(err)));
                     break;
             }
         })
