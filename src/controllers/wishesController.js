@@ -59,10 +59,6 @@ function patchWish(req, res, next) {
         return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
     }
 
-    logger.log('debug', 'incoming get', {
-        params: req.params,
-        payload,
-    });
     return wishesModel.changeWish(payload, req.rid)
         .then(result => req.response(200, 'updated', result))
         .catch((err) => {
