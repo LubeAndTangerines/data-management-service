@@ -60,7 +60,7 @@ function patchWish(req, res, next) {
     }
 
     return wishesModel.changeWish(payload, req.rid)
-        .then(result => req.response(200, 'updated', result))
+        .then(req.response(200, 'updated'))
         .catch((err) => {
             logger.log('error', 'Update failed on some wishes', {
                 rid: req.rid,

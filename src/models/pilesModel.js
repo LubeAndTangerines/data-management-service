@@ -23,13 +23,13 @@ function addPile(params, rid) {
             rid: rid,
             name: params.name || 'My List',
             description: params.description || null,
-            link: 'thisisarandoomlinxxxster',
+            link: Date.now(), // How about no?
         };
 
         db.tx(t => {
-            return t.one(sql.getLastAddedPile, () => {
-                return t.none(sql.addNewPile, queryParams);
-            }).then(t.batch);
+            return t.oneOrNone(sql.addNewPile, queryParams, () => {
+                return t.one(sql.getLastAddedPile)
+            });
         })
             .then(pile => resolve(pile))
             .catch((err) => {
@@ -39,7 +39,7 @@ function addPile(params, rid) {
     });
 }
 
-function changePile(params, rid) {
+function changePile(pileId, params, rid) {
     return new Promise((resolve, reject) => {
         const queryParams = {
             pileId: pileId,
@@ -47,7 +47,11 @@ function changePile(params, rid) {
             description: params.description,
         };
 
-        db.one(sql.updatePile, queryParams)
+        db.tx(t => {
+            return t.oneOrNone(sql.updatePile, queryParams, () => {
+                return t.one(sql.getPile, queryParams)
+            });
+        })
             .then(pile => resolve(pile))
             .catch((err) => {
                 logger.log('alert', 'Error while updating pile', {err: err.message, rid});

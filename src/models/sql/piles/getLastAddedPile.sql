@@ -5,4 +5,4 @@ select
 from
   public.landt_piles
 where
-  id=lastval();
+  id = lastval();

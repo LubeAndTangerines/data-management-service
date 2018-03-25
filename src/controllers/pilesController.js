@@ -50,7 +50,7 @@ function putPile(req, res, next) {
         return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
     }
 
-    return pilesModel.changePile(payload, req.rid)
+    return pilesModel.changePile(pileId, payload, req.rid)
         .then(result => req.response(200, 'updated', result))
         .catch((err) => {
             logger.log('error', 'Update failed on Pile', {
