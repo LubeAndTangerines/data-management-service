@@ -31,7 +31,7 @@ function addWishToPile(pileId, params, rid) {
         })
             .then(wishes => resolve(wishes))
             .catch((err) => {
-                logger.log('alert', 'Error While inserting new wish', { err: err.message, rid });
+                logger.log('alert', 'Error while inserting new wish', { err: err.message, rid });
                 reject(err);
             });
     });
