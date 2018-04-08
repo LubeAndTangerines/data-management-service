@@ -20,16 +20,6 @@ function getPile(req, res, next) {
 
 function postNewPile(req, res, next) {
 	const payload = req.body;
-	const validation = validator.validate('AddPileModel', payload);
-
-	// if (validation.valid === false) {
-	// 	logger.log('warn', 'PayloadValidation failed on post new Pile', {
-	// 		rid: req.rid,
-	// 		validationMsg: validation.GetErrorMessages(),
-	// 	});
-	//
-	// 	return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
-	// }
 
 	return pilesModel.addPile(payload, req.rid)
 		.then(data => req.response(201, 'Pile added', data))
@@ -38,17 +28,16 @@ function postNewPile(req, res, next) {
 
 function putPile(req, res, next) {
 	const payload = req.body;
-	const validation = validator.validate('UpdatePileModel', payload);
+	const validation = validator.validate('PileModel', payload);
 	const pileId = req.params.pile_id;
 
-	// if (validation.valid === false) {
-	//     logger.log('warn', 'PayloadValidation failed on pile update', {
-	//         rid: req.rid,
-	//         validationMsg: validation.GetErrorMessages(),
-	//     });
-	//
-	//     return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
-	// }
+	if (validation.valid === false) {
+		logger.log('warn', 'PayloadValidation failed on pile update', {
+			rid: req.rid,
+			validationMsg: validation.GetErrorMessages(),
+		});
+		return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
+	}
 
 	return pilesModel.changePile(pileId, payload, req.rid)
 		.then(result => req.response(200, 'Pile updated', result))

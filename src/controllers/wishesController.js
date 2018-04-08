@@ -40,7 +40,6 @@ function postNewWishes(req, res, next) {
 			rid: req.rid,
 			validationMsg: validation.GetErrorMessages(),
 		});
-
 		return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
 	}
 
@@ -59,7 +58,6 @@ function patchWish(req, res, next) {
 			rid: req.rid,
 			validationMsg: validation.GetErrorMessages(),
 		});
-
 		return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
 	}
 
