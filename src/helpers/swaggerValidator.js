@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Validator = require('swagger-model-validator');
+
 const swaggerModel = JSON.parse(fs.readFileSync('public/swagger.json'));
 const validator = new Validator(swaggerModel);
 

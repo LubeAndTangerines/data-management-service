@@ -17,7 +17,7 @@
   },
 
   "db": {
-    "host": "localhost",
+    "host": "services.dev.myjar.com",
     "port": "5432",
     "db": "postgres",
     "user": "postgres",

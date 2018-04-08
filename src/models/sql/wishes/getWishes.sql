@@ -2,7 +2,7 @@ select
   id,
   wish,
   amount,
-  lower(status),
+  lower(status) AS status,
   created_ts
 from
   public.landt_wishes

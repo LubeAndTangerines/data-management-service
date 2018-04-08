@@ -1,15 +1,15 @@
 const STATUSES = {
-    wished: 'WISHED',
-    checked: 'CHECKED',
-    archived: 'ARCHIVED',
+	wished: 'WISHED',
+	checked: 'CHECKED',
+	archived: 'ARCHIVED',
 };
 
 // From checked -> any of these
 const STATUS_FROM_CHECKED = [
-    STATUSES.archived,
+	STATUSES.archived,
 ];
 
 module.exports = {
-    STATUSES,
-    STATUS_FROM_CHECKED,
+	STATUSES,
+	STATUS_FROM_CHECKED,
 };

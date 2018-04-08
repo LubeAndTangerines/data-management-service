@@ -18,10 +18,10 @@ Microservice to handle data for shopping list app
 Todo
 ------------------
 
-* [ ] All routes
-* [ ] All controllers
-* [ ] All models
-* [ ] All queries
+* [x] All routes
+* [x] All controllers
+* [x] All models
+* [x] All queries
 * [ ] Tests
 
 Quick Start

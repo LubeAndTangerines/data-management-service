@@ -7,4 +7,4 @@ select
 from
   public.landt_piles
 where
-  id = ${pileId};
+  link = ${link};
