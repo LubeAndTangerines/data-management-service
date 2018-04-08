@@ -1,7 +1,8 @@
 select
   id,
   name,
-  description
+  description,
+  link
 from
   public.landt_piles
 where

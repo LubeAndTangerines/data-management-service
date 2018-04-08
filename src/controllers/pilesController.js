@@ -7,7 +7,7 @@ function getPile(req, res, next) {
 	const pileId = req.params.pile_id;
 
 	return pilesModel.getPileByPileId(pileId, req.rid)
-		.then(result => req.response(200, 'pile', {
+		.then(result => req.response(200, 'Pile', {
 			result: result,
 		}))
 		.catch((err) => {
@@ -51,7 +51,7 @@ function putPile(req, res, next) {
 	// }
 
 	return pilesModel.changePile(pileId, payload, req.rid)
-		.then(result => req.response(200, 'updated', result))
+		.then(result => req.response(200, 'Pile updated', result))
 		.catch((err) => {
 			logger.log('error', 'Update failed on Pile', {
 				rid: req.rid,

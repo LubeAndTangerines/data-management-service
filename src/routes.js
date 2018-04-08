@@ -24,8 +24,6 @@ function registerAppRoutes(app) {
 
 	// GET - Get wishpile by ID
 	app.route('/api/v1/piles/:pile_id').get(pilesController.getPile);
-	// GET - Get wishpile by ID
-	app.route('/api/v1/piles/links/:link_id').get(pilesController.getPile);
 	// POST - Create new wishpile
 	app.route('/api/v1/piles').post(pilesController.postNewPile);
 	// PUT - Change wishpiles description or name
