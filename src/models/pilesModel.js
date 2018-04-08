@@ -1,7 +1,6 @@
 const db = require('../helpers/postgres').db;
 const logger = require('../helpers/logger');
 const sql = require('./sql/sql');
-const crypto = require('crypto');
 
 function getPileByPileId(pileId, statuses, rid) {
 	return new Promise((resolve, reject) => {
@@ -24,7 +23,7 @@ function addPile(params, rid) {
 			rid: rid,
 			name: params.name || 'My List',
 			description: params.description || null,
-			link: crypto.randomBytes(18).toString('hex'),
+			link: rid,
 		};
 
 		db.tx(t => t.oneOrNone(sql.addNewPile, queryParams, () => t.one(sql.getLastAddedPile)))
