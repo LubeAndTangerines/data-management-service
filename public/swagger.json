@@ -1,113 +1,157 @@
 {
-  "swagger" : "2.0",
-  "info" : {
-    "description" : "Microservice to handle data for shopping list app",
-    "version" : "1.0.0",
-    "title" : "data-management-service"
+  "swagger": "2.0",
+  "info": {
+    "description": "Microservice to handle data for shopping list app",
+    "version": "1.0.0",
+    "title": "data-management-service"
   },
-  "host" : "localhost",
-  "schemes" : [ "http", "https" ],
-  "consumes" : [ "application/json" ],
-  "produces" : [ "application/json" ],
-  "paths" : {
-    "/api/v1/healthcheck" : {
-      "get" : {
-        "summary" : "Check if service is up and running",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns service status (up and running)"
+  "host": "localhost",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/healthcheck": {
+      "get": {
+        "summary": "Check if service is up and running",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns service status (up and running)"
           },
-          "500" : {
-            "description" : "Returns service status (service down)"
+          "500": {
+            "description": "Returns service status (service down)"
           }
         }
       }
     },
-    "/api/v1/piles/:pile_id/wishes" : {
-      "get" : {
-        "summary" : "Returns validation documents requests",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns list of wishes in pile"
-          },
-          "500" : {
-            "description" : "Service outages"
+    "/api/v1/piles/:pile_id/wishes": {
+      "get": {
+        "summary": "Returns validation documents requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns list of wishes in pile"
           }
         }
       },
-      "post" : {
-        "summary" : "Adds new wishes to the pile",
-        "parameters" : [ ],
-        "responses" : {
-          "201" : {
-            "description" : "New wishes were added to the pile"
-          },
-          "500" : {
-            "description" : "Service outages"
+      "post": {
+        "summary": "Adds new wishes to the pile",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "New wishes were added to the pile"
           }
         }
       },
-      "patch" : {
-        "summary" : "Update status, description or amount of given wishes",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Wishes were successfully updated"
-          },
-          "500" : {
-            "description" : "Service outages"
+      "patch": {
+        "summary": "Update status, description or amount of given wishes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Wishes were successfully updated"
+          }
+        }
+      }
+    },
+    "/api/v1/piles/:pile_id": {
+      "get": {
+        "summary": "Returns pile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Pile"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update pile's name and/or description",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Pile updated"
+          }
+        }
+      }
+    },
+    "/api/v1/piles": {
+      "post": {
+        "summary": "Creates a new pile and responds with pile name and description",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Pile added"
           }
         }
       }
     }
   },
-  "definitions" : {
-    "AddWishesModel" : {
-      "type" : "object",
+  "definitions": {
+    "AddWishesModel": {
+      "type": "object",
       "required": [
         "wishes"
       ],
-      "properties" : {
-        "wishes" : {
+      "properties": {
+        "wishes": {
           "$ref": "#/definitions/WishesModel"
         }
       }
     },
-    "UpdateWishesModel" : {
-      "type" : "object",
+    "UpdateWishesModel": {
+      "type": "object",
       "required": [
         "updateField",
         "wishes"
       ],
-      "properties" : {
+      "properties": {
         "updateField": {
           "type": "string"
         },
-        "wishes" : {
+        "wishes": {
           "$ref": "#/definitions/WishesModel"
         }
       }
     },
-    "WishesModel" : {
-      "type" : "array",
-      "items" : {
-        "$ref" : "#/definitions/WishModel"
+    "WishesModel": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/WishModel"
       }
     },
-    "WishModel" : {
-      "type" : "object",
-      "properties" : {
-        "description" : {
-          "type" : "string",
-          "maxLength" : 50
+    "WishModel": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "maxLength": 50
         },
-        "amount" : {
-          "type" : "number"
+        "amount": {
+          "type": "number"
         },
-        "id" : {
-          "type" : "number"
+        "id": {
+          "type": "number"
+        }
+      }
+    },
+    "PileModel": {
+      "type": "object",
+      "required": [
+        "name",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
       }
     }

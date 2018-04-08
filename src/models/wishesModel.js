@@ -6,7 +6,7 @@ const sql = require('./sql/sql');
 function getWishesByStatusAndPileId(pileId, statuses, rid) {
 	return new Promise((resolve, reject) => {
 		const queryParams = {
-			pileId: pileId,
+			link: pileId,
 			statuses: statuses,
 		};
 
@@ -19,7 +19,7 @@ function getWishesByStatusAndPileId(pileId, statuses, rid) {
 	});
 }
 
-function addWishToPile(pileId, params, rid) {
+function addWishesToPile(pileId, params, rid) {
 	return new Promise((resolve, reject) => {
 		db.tx((t) => {
 			params.wishes.forEach(newWish => t.any(sql.addNewWish, {
@@ -42,23 +42,25 @@ function changeWish(params, rid) {
 		db.tx((t) => {
 			const wishes = params.wishes;
 			switch (params.updateField) {
-				case 'status':
+				case constants.UPDATE_FIELDS.status:
 					wishes.forEach(wish => t.none(sql.updateWishStatus, {
 						newStatus: constants.STATUSES[wish.status],
 						wishId: wish.id,
-					}).then(wishes => resolve(wishes)).catch(err => reject(err)));
+					}).then(resolve).catch(err => reject(err)));
 					break;
-				case 'amount':
+				case constants.UPDATE_FIELDS.amount:
 					wishes.forEach(wish => t.none(sql.updateWishAmount, {
 						newAmount: wish.amount,
 						wishId: wish.id,
 					}).then(resolve).catch(err => reject(err)));
 					break;
-				case 'description':
+				case constants.UPDATE_FIELDS.description:
 					wishes.forEach(wish => t.none(sql.updateWish, {
 						newWish: wish.description,
 						wishId: wish.id,
 					}).then(resolve).catch(err => reject(err)));
+					break;
+				default:
 					break;
 			}
 		})
@@ -72,6 +74,6 @@ function changeWish(params, rid) {
 
 module.exports = {
 	getWishesByStatusAndPileId,
-	addWishToPile,
+	addWishesToPile,
 	changeWish,
 };
