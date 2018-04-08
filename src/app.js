@@ -14,9 +14,8 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(requestId);
 app.use(handler.response);
-app.use(handler.error);
-
 registerAppRoutes(app);
+app.use(handler.error);
 
 /*
  * Migrate database and run application or exit with error

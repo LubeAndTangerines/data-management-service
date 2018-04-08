@@ -35,14 +35,14 @@ function postNewWishes(req, res, next) {
 	const validation = validator.validate('AddWishesModel', payload);
 	const pileId = req.params.pile_id;
 
-	// if (validation.valid === false) {
-	//     logger.log('warn', 'PayloadValidation failed on post new Wish', {
-	//         rid: req.rid,
-	//         validationMsg: validation.GetErrorMessages(),
-	//     });
-	//
-	//     return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
-	// }
+	if (validation.valid === false) {
+		logger.log('warn', 'PayloadValidation failed on post new Wish', {
+			rid: req.rid,
+			validationMsg: validation.GetErrorMessages(),
+		});
+
+		return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
+	}
 
 	return wishesModel.addWishToPile(pileId, payload, req.rid)
 		.then(data => req.response(201, 'Wishes added', data))
@@ -54,14 +54,14 @@ function patchWish(req, res, next) {
 	const validation = validator.validate('UpdateWishesModel', payload);
 	const pileId = req.params.pile_id;
 
-	// if (validation.valid === false) {
-	//     logger.log('warn', 'PayloadValidation failed on wish update', {
-	//         rid: req.rid,
-	//         validationMsg: validation.GetErrorMessages(),
-	//     });
-	//
-	//     return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
-	// }
+	if (validation.valid === false) {
+		logger.log('warn', 'PayloadValidation failed on wish update', {
+			rid: req.rid,
+			validationMsg: validation.GetErrorMessages(),
+		});
+
+		return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
+	}
 
 	return wishesModel.changeWish(payload, req.rid)
 		.then(req.response(200, 'updated'))
