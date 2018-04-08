@@ -6,7 +6,7 @@ const sql = require('./sql/sql');
 function getWishesByStatusAndPileId(pileId, statuses, rid) {
 	return new Promise((resolve, reject) => {
 		const queryParams = {
-			pileId: pileId,
+			link: pileId,
 			statuses: statuses,
 		};
 
@@ -19,7 +19,7 @@ function getWishesByStatusAndPileId(pileId, statuses, rid) {
 	});
 }
 
-function addWishToPile(pileId, params, rid) {
+function addWishesToPile(pileId, params, rid) {
 	return new Promise((resolve, reject) => {
 		db.tx((t) => {
 			params.wishes.forEach(newWish => t.any(sql.addNewWish, {
@@ -74,6 +74,6 @@ function changeWish(params, rid) {
 
 module.exports = {
 	getWishesByStatusAndPileId,
-	addWishToPile,
+	addWishesToPile,
 	changeWish,
 };

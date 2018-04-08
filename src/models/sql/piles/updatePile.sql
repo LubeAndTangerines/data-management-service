@@ -4,4 +4,4 @@ SET
 	name = ${name},
 	description = ${description}
 WHERE
-	id = ${pileId};
+	link = ${link};

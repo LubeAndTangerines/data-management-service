@@ -38,7 +38,7 @@ function addPile(params, rid) {
 function changePile(pileId, params, rid) {
 	return new Promise((resolve, reject) => {
 		const queryParams = {
-			pileId: pileId,
+			link: pileId,
 			name: params.name,
 			description: params.description,
 		};

@@ -7,5 +7,5 @@ select
 from
   public.landt_wishes
 where
-  pile_id=${pileId} and
+  link=${link} and
   status = ANY(${statuses});

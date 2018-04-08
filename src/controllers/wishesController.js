@@ -44,7 +44,7 @@ function postNewWishes(req, res, next) {
 		return next(new errorHandler.Validation({ errors: validation.GetErrorMessages() }));
 	}
 
-	return wishesModel.addWishToPile(pileId, payload, req.rid)
+	return wishesModel.addWishesToPile(pileId, payload, req.rid)
 		.then(data => req.response(201, 'Wishes added', data))
 		.catch(err => next(new errorHandler.System(err.message, 'Failed to add new wishes')));
 }
