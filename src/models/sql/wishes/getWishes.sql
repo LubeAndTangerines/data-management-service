@@ -1,5 +1,6 @@
 select
   id,
+  link,
   wish,
   amount,
   lower(status) AS status,

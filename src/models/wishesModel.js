@@ -23,7 +23,7 @@ function addWishesToPile(pileId, params, rid) {
 	return new Promise((resolve, reject) => {
 		db.tx((t) => {
 			params.wishes.forEach(newWish => t.any(sql.addNewWish, {
-				pileId: pileId,
+				link: pileId,
 				rid: rid,
 				wish: newWish.description,
 				amount: newWish.amount || 1,
