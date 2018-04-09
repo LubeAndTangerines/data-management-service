@@ -17,7 +17,7 @@ create table if not exists public.landt_piles (
 
 create table if not exists public.landt_wishes (
     id SERIAL primary key,
-    pile_id SERIAL REFERENCES public.landt_piles (id) NOT NULL,
+    link SERIAL REFERENCES public.landt_piles (link) NOT NULL,
     rid char(36) not null,
     wish varchar(255) not null,
     amount int not null,
