@@ -10,14 +10,14 @@ create table if not exists public.landt_piles (
     rid char(36) not null,
     name varchar(50) not null,
     description varchar(255),
-    link char(36) default null UNIQUE ,
+    link char(36) not null UNIQUE,
     created_ts	 timestamp with time zone default now(),
     modified_ts timestamp with time zone default now()
 );
 
 create table if not exists public.landt_wishes (
     id SERIAL primary key,
-    link SERIAL REFERENCES public.landt_piles (link) NOT NULL,
+    pile_link char(36) REFERENCES public.landt_piles (link) NOT NULL,
     rid char(36) not null,
     wish varchar(255) not null,
     amount int not null,

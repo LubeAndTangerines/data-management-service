@@ -1,6 +1,6 @@
 select
   id,
-  link,
+  pile_link,
   wish,
   amount,
   lower(status) AS status,
@@ -8,5 +8,5 @@ select
 from
   public.landt_wishes
 where
-  link=${link} and
+  pile_link=${link} and
   status = ANY(${statuses});
