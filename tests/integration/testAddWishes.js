@@ -17,7 +17,7 @@ module.exports = (globals) => {
 		const apiEndpoint = `/piles/${globals.link}/wishes`;
 		const data = {};
 
-		it('should return status 201', () => {
+		it('successful should return status 201', () => {
 			data.request = {
 				wishes: [
 					{ description: 'Bacon' },
@@ -30,11 +30,11 @@ module.exports = (globals) => {
 				.send(data.request)
 				.then((res) => {
 					assert.equal(res.status, 201);
-					assert.equal(res.body.message, 'Wishes added');
+					assert.equal(res.body.message, 'wishes added');
 				});
 		});
 
-		it('empty required fields/ should return status 400', () => {
+		it('empty required fields should return status 400', () => {
 			data.request = {
 				wishes: [],
 			};
@@ -45,12 +45,12 @@ module.exports = (globals) => {
 					assert.equal(err.response.body.message, 'Error when validating data');
 					const responseErrors = err.response.body.data.errors;
 					Object.keys(data.request).forEach((element, i) => {
-						assert.equal(responseErrors[i], `expected to have at least one wish`);
+						assert.equal(responseErrors[i], 'expected to have at least one wish');
 					});
 				});
 		});
 
-		it('empty payload/ should return status 400', () => api.post(apiEndpoint)
+		it('empty payload should return status 400', () => api.post(apiEndpoint)
 			.send(data)
 			.catch((err) => {
 				assert.equal(err.response.body.status, 400);

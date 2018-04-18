@@ -13,56 +13,86 @@ chai.use(chaiHttp);
 const api = chai.request(API_PATH);
 
 module.exports = (globals) => {
-	describe(`PUT - /piles/${globals.link}/wishes`, () => {
+	describe(`PATCH - /piles/${globals.link}/wishes`, () => {
 		const apiEndpoint = `/piles/${globals.link}/wishes`;
 		const data = {};
 
-		const config = {};
-
-		it('validate documents should return status 200', () => {
+		it('change wishes description should return status 200', () => {
 			data.request = {
-				updateField: 'status',
+				updateField: 'description',
 				wishes: [
-					{ id: 1, status: 'checked' },
-					{ id: 2, status: 'archived' },
+					{ id: 1, description: 'Froggo' },
+					{ id: 2, description: 'Peet' },
 				],
 			};
 
-			return api.put(apiEndpoint)
+			return api.patch(apiEndpoint)
 				.send(data.request)
 				.then((res) => {
 					assert.equal(res.status, 200);
 					assert.equal(res.body.message, 'updated');
-					const responseDocs = res.body.data;
-					Object.keys(config.validate).forEach((element, i) => {
-						assert.equal(responseDocs.indexOf(element) !== -1, true);
-					});
 				});
 		});
 
-		it('empty required fields/ should return status 404', () => {
+		it('change wishes amount should return status 200', () => {
 			data.request = {
-				admin: '',
-				documents: '',
+				updateField: 'amount',
+				wishes: [
+					{ id: 1, amount: 2 },
+					{ id: 2, amount: 4 },
+				],
 			};
 
-			return api.put(apiEndpoint)
+			return api.patch(apiEndpoint)
+				.send(data.request)
+				.then((res) => {
+					assert.equal(res.status, 200);
+					assert.equal(res.body.message, 'updated');
+				});
+		});
+
+		it('change wishes description should return status 200', () => {
+			data.request = {
+				updateField: 'status',
+				wishes: [
+					{ id: 1, status: 'wished' },
+					{ id: 2, status: 'archived' },
+				],
+			};
+
+			return api.patch(apiEndpoint)
+				.send(data.request)
+				.then((res) => {
+					assert.equal(res.status, 200);
+					assert.equal(res.body.message, 'updated');
+				});
+		});
+
+		it('empty/wrong required fields should return status 400', () => {
+			data.request = {
+				updateField: 'potato',
+				wishes: [],
+			};
+			return api.patch(apiEndpoint)
 				.send(data.request)
 				.catch((err) => {
-					assert.equal(err.response.status, 404);
+					assert.equal(err.response.status, 400);
 					assert.equal(err.response.body.message, 'Error when validating data');
-
-					const requiredFields = ['updateField', 'wishes'];
-					requiredFields.forEach((element, i) => {
-						assert.equal(err.response.body.data.errors[i], `${element} is a required field`);
+					const responseErrors = err.response.body.data.errors;
+					const expectedErrors = [
+						'status potato not allowed',
+						'expected to have at least one wish',
+					];
+					Object.keys(data.request).forEach((element, i) => {
+						assert.equal(responseErrors[i], expectedErrors[i]);
 					});
 				});
 		});
 
-		it('empty payload/ should return status 404', () => api.put(apiEndpoint)
+		it('empty payload should return status 400', () => api.patch(apiEndpoint)
 			.send(data)
 			.catch((err) => {
-				assert.equal(err.response.status, 404);
+				assert.equal(err.response.status, 400);
 				assert.equal(err.response.body.message, 'Error when validating data');
 
 				const responseErrors = err.response.body.data.errors;

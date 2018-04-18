@@ -7,16 +7,12 @@ const helpers = require('../helpers/functions');
 
 function getWishes(req, res, next) {
 	const pileId = req.params.pile_id;
-	let statuses = constants.STATUSES;
-
-	if (req.query.status) {
-		statuses = helpers.getQueryParamAsUpperArray(req.query.status);
-	}
+	const statuses = req.query.status ? helpers.getQueryParamAsUpperArray(req.query.status) : Object.values(constants.STATUSES);
 
 	return wishesModel.getWishesByStatusAndPileId(pileId, statuses, req.rid)
 		.then((results) => {
 			if (results.length === 0) {
-				return req.response(404, 'No wishes found', {
+				return req.response(404, 'no wishes found', {
 					resultCount: results.length,
 					result: results,
 				});
@@ -27,7 +23,7 @@ function getWishes(req, res, next) {
 				result: results,
 			});
 		})
-		.catch(err => next(new errorHandler.Request(err.message, 'failed_to_get_wishes')));
+		.catch(err => next(new errorHandler.Request(err.message, 'failed to get wishes')));
 }
 
 function postNewWishes(req, res, next) {
@@ -44,8 +40,8 @@ function postNewWishes(req, res, next) {
 	}
 
 	return wishesModel.addWishesToPile(pileId, payload, req.rid)
-		.then(data => req.response(201, 'Wishes added', data))
-		.catch(err => next(new errorHandler.System(err.message, 'Failed to add new wishes')));
+		.then(data => req.response(201, 'wishes added', data))
+		.catch(err => next(new errorHandler.System(err.message, 'failed to add new wishes')));
 }
 
 function patchWish(req, res, next) {
@@ -71,7 +67,7 @@ function patchWish(req, res, next) {
 				msg: err.message,
 			});
 
-			return next(new errorHandler.Request(err.message, 'update_failed'));
+			return next(new errorHandler.Request(err.message, 'update failed'));
 		});
 }
 

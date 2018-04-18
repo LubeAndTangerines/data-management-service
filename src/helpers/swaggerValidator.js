@@ -5,7 +5,7 @@ const constants = require('../constants');
 const swaggerModel = JSON.parse(fs.readFileSync('public/swagger.json'));
 const validator = new Validator(swaggerModel);
 
-// Add field validators
+// Verify that at least some wishes are sent for adding to pile
 validator.addFieldValidator('AddWishesModel', 'wishes', (name, value) => {
 	const errors = [];
 
@@ -13,14 +13,19 @@ validator.addFieldValidator('AddWishesModel', 'wishes', (name, value) => {
 	return errors.length > 0 ? errors : null;
 });
 
-// Verify that only allowed statuses can be set while validating
+// Verify that only allowed updateFields can be set while changing wishes
 validator.addFieldValidator('UpdateWishesModel', 'updateField', (name, value) => {
 	const errors = [];
 
-	if (!constants.UPDATE_FIELDS[value]) {
-		errors.push(new Error(`status ${value} not allowed`));
-	}
+	if (!constants.UPDATE_FIELDS[value]) errors.push(new Error(`status ${value} not allowed`));
+	return errors.length > 0 ? errors : null;
+});
 
+// Verify that at least some wishes are sent for changing in pile
+validator.addFieldValidator('UpdateWishesModel', 'wishes', (name, value) => {
+	const errors = [];
+
+	if (Object.keys(value).length === 0) errors.push(new Error('expected to have at least one wish'));
 	return errors.length > 0 ? errors : null;
 });
 
